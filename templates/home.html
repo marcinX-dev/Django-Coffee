@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="bg-light p-5 rounded-3 mb-4 text-center">
+                <h1 class="display-4">Odkryj świat kawy specialty</h1>
+                <p class="lead">Wyselekcjonowane ziarna z najlepszych plantacji na świecie. Świeżo palone dla
+                    maksymalnego smaku.</p>
+                <a href="{% url 'store' %}" class="btn btn-primary btn-lg">Przeglądaj kawy</a>
+            </div>
+        </div>
+    </div>
+
+    <h2 class="mb-4">Nasze najnowsze kawy</h2>
+    <div class="row">
+        {% for coffee in coffees %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 coffee-card">
+                <img src="{{ coffee.image.url }}" class="card-img-top" alt="{{ coffee.name }}"
+                    style="height: 250px; object-fit: cover;">
+                <div class="card-body">
+                    <h5 class="card-title">{{ coffee.name }}</h5>
+                    <p class="card-text text-muted">{{ coffee.roaster }}</p>
+                    <p class="card-text">{{ coffee.flavor_profile }}</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="fs-5 fw-bold">{{ coffee.price }} zł</span>
+                        <a href="{{ coffee.get_url }}" class="btn btn-sm btn-outline-primary">Zobacz więcej</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-truck fs-1 text-coffee mb-3"></i>
+                    <h5 class="card-title">Darmowa dostawa</h5>
+                    <p class="card-text">Dla wszystkich zamówień powyżej 150 zł</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-coffee fs-1 text-coffee mb-3"></i>
+                    <h5 class="card-title">Świeżo palone</h5>
+                    <p class="card-text">Wysyłamy kawę w ciągu 24h od palenia</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-medal fs-1 text-coffee mb-3"></i>
+                    <h5 class="card-title">Najwyższa jakość</h5>
+                    <p class="card-text">Tylko ziarna o punktacji SCA 84+</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

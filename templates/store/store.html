@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <h4 class="mb-4">Kategorie</h4>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <a href="{% url 'store' %}" class="text-decoration-none">Wszystkie kawy</a>
+                </li>
+                {% for category in categories %}
+                <li class="list-group-item">
+                    <a href="{{ category.get_url }}" class="text-decoration-none">{{ category.name }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+
+            <h4 class="mt-4 mb-3">Filtry</h4>
+            <form>
+                <div class="mb-3">
+                    <label class="form-label">Proces</label>
+                    <select class="form-select">
+                        <option value="">Wszystkie</option>
+                        <option>Washed</option>
+                        <option>Natural</option>
+                        <option>Honey</option>
+                        <option>Anaerobic</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Profil palenia</label>
+                    <select class="form-select">
+                        <option value="">Wszystkie</option>
+                        <option>Jasny</option>
+                        <option>Średni</option>
+                        <option>Ciemny</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Cena</label>
+                    <div class="d-flex">
+                        <input type="number" class="form-control me-2" placeholder="Od">
+                        <input type="number" class="form-control" placeholder="Do">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Filtruj</button>
+                <button type="reset" class="btn btn-outline-secondary">Resetuj</button>
+            </form>
+        </div>
+
+        <div class="col-md-9">
+            <h2 class="mb-4">Nasze kawy
+                {% if category %}
+                - {{ category.name }}
+                {% endif %}
+            </h2>
+
+            <p>Znaleziono {{ coffee_count }} produktów</p>
+
+            <div class="row">
+                {% for coffee in coffees %}
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 coffee-card">
+                        <a href="{{ coffee.get_url }}">
+                            <img src="{{ coffee.image.url }}" class="card-img-top" alt="{{ coffee.name }}"
+                                style="height: 200px; object-fit: cover;">
+                        </a>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ coffee.name }}</h5>
+                            <p class="card-text text-muted">{{ coffee.roaster }}</p>
+                            <p class="card-text small">{{ coffee.flavor_profile }}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="fs-5 fw-bold">{{ coffee.price }} zł</span>
+                                <a href="{% url 'add_cart' coffee.id %}" class="btn btn-sm btn-outline-primary">
+                                    <i class="fas fa-shopping-cart"></i> Dodaj
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="col-12">
+                    <div class="alert alert-info">
+                        Brak produktów do wyświetlenia.
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
